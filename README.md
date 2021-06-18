@@ -1,4 +1,4 @@
-Cross-View Regularization for Domain Adaptive Panoptic Segmentation
+# Cross-View Regularization for Domain Adaptive Panoptic Segmentation
 
 # Install UPSNet
 conda env create -f environment.yaml
