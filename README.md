@@ -100,3 +100,6 @@ $ 2021-06-10 23:20:32,261 | base_dataset.py | line 367: All       |  32.1   66.6
 $ 2021-06-10 23:20:32,261 | base_dataset.py | line 367: Things    |  21.6   68.7   30.2     6
 $ 2021-06-10 23:20:32,261 | base_dataset.py | line 367: Stuff     |  38.4   65.3   47.6    10
 ```
+
+## Acknowledgements
+This codebase is heavily borrowed from [AdaptSegNet](https://github.com/wasidennis/AdaptSegNet) and [Pytorch-Deeplab](https://github.com/speedinghzl/Pytorch-Deeplab).
