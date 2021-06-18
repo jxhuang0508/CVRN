@@ -21,29 +21,38 @@ If you find this code useful for your research, please cite our [paper](https://
   year={2021}
 }
 ```
+## Abstract
+Panoptic segmentation unifies semantic segmentation and instance segmentation which has been attracting increasing attention in recent years. However, most existing research was conducted under a supervised learning setup whereas unsupervised domain adaptive panoptic segmentation which is critical in different tasks and applications is largely neglected. We design a domain adaptive panoptic segmentation network that exploits inter-style consistency and inter-task regularization for optimal domain adaptive panoptic segmentation. The inter-style consistency leverages semantic invariance across the same image of the different styles which fabricates certain self-supervisions to guide the network to learn domain-invariant features. The inter-task regularization exploits the complementary nature of instance segmentation and semantic segmentation and uses it as a constraint for better feature alignment across domains. Extensive experiments over multiple domain adaptive panoptic segmentation tasks (e.g. synthetic-to-real and real-to-real) show that our proposed network achieves superior segmentation performance as compared with the state-of-the-art.
 
-# Install UPSNet
+## Preparation
+
+### Pre-requisites
+* Python 3.7
+* Pytorch >= 0.4.1
+* CUDA 9.0 or higher
+
+### Install UPSNet
 conda env create -f environment.yaml
 git clone https://github.com/uber-research/UPSNet.git
 cd UPSNet
 sh init.sh
 cp -r lib/dataset_devkit/panopticapi/panopticapi/ .
 
-# Import Deeplab-v2
+### Import Deeplab-v2
 git clone https://github.com/yzou2/CRST.git
 
-# Prepare Dataset (Download Cityscapes dataset at UPSNet/data/cityscapes)
+### Prepare Dataset (Download Cityscapes dataset at UPSNet/data/cityscapes)
 cd UPSNet
 sh init_cityscapes.sh
 cd ..
 python cvrn/init_citiscapes_19cls_to_16cls.py
 
-# Prepare CVRN
+### Prepare CVRN
 cp cvrn/models/* UPSNet/upsnet/models
 cp cvrn/dataset/* UPSNet/upsnet/dataset
 cp cvrn/upsnet/* UPSNet/upsnet
 
-# Evaluation
+### Evaluation
 cd UPSNet
 python upsnet/test_cvrn_upsnet.py --cfg ../config/cvrn_upsnet.yaml --weight_path ../pretrained_models/cvrn_upsnet.pth
 2021-06-10 14:20:09,688 | base_dataset.py | line 499:           |    PQ     SQ     RQ     N
