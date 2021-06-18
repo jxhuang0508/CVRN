@@ -8,8 +8,8 @@
 
 [Cross-View Regularization for Domain Adaptive Panoptic Segmentation](https://arxiv.org/abs/2103.02584)  
 [Jiaxing Huang](https://scholar.google.com/citations?user=czirNcwAAAAJ&hl=en&oi=ao),  [Dayan Guan](https://scholar.google.com/citations?user=9jp9QAsAAAAJ&hl=en), [Xiao Aoran](https://scholar.google.com/citations?user=yGKsEpAAAAAJ&hl=en), [Shijian Lu](https://scholar.google.com/citations?user=uYmK-A0AAAAJ&hl=en)
-                                                         School of Computer Science Engineering, Nanyang Technological University, Singapore
-IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 2021 (**Oral**)
+  School of Computer Science Engineering, Nanyang Technological University, Singapore
+  IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 2021 (**Oral**)
 
 If you find this code useful for your research, please cite our [paper](https://arxiv.org/abs/2103.02584):
 
