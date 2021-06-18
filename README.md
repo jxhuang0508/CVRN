@@ -72,6 +72,8 @@ $ cp cvrn/models/* UPSNet/upsnet/models
 $ cp cvrn/dataset/* UPSNet/upsnet/dataset
 $ cp cvrn/upsnet/* UPSNet/upsnet
 ```
+### Pre-trained models
+Pre-trained models can be downloaded [here](https://github.com/jxhuang0508/CVRN/releases/tag/Latest) and put in ```CVRN/pretrained_models```
 
 ### Evaluation
 ```bash
