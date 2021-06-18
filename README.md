@@ -105,3 +105,6 @@ $ 2021-06-10 23:20:32,261 | base_dataset.py | line 367: Stuff     |  38.4   65.3
 
 ## Acknowledgements
 This codebase is heavily borrowed from [UPSNet](https://github.com/uber-research/UPSNet) and [CRST](https://github.com/yzou2/CRST).
+
+## Contact
+If you have any questions, please contact: jiaxing.huang@ntu.edu.sg
