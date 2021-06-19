@@ -31,7 +31,7 @@ Panoptic segmentation unifies semantic segmentation and instance segmentation wh
 * Pytorch >= 0.4.1
 * CUDA 9.0 or higher
 
-### Install UPSNet
+### Install CVRN
 0. Clone the repo:
 ```bash
 $ git clone https://github.com/jxhuang0508/CVRN.git
