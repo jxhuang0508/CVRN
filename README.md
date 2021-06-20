@@ -1,7 +1,7 @@
 # Cross-View Regularization for Domain Adaptive Panoptic Segmentation
 
 ## Updates
-- *06/2021*: check out our domain generalization paper [FSDR: Frequency Space Domain Randomization for Domain Generalization](https://arxiv.org/abs/2103.02370) (accepted to CVPR 2021). We design a domain adaptive panoptic segmentation network that exploits inter-style consistency and inter-task regularization for optimal domain adaptation in panoptic segmentation. [Pytorch](https://github.com/jxhuang0508/FSDR) code and pre-trained models are coming soon.
+- *06/2021*: check out our domain generalization paper [FSDR: Frequency Space Domain Randomization for Domain Generalization](https://arxiv.org/abs/2103.02370) (accepted to CVPR 2021). We design a domain adaptive panoptic segmentation network that exploits inter-style consistency and inter-task regularization for optimal domain adaptation in panoptic segmentation. [Pytorch code and pre-trained models are coming soon](https://github.com/jxhuang0508/FSDR).
 
 ## Paper
 ![](./figure_1.jpg)
