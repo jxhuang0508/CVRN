@@ -1,0 +1,30 @@
+
+GPU_ID: 0
+
+SOURCE: SYNTHIA
+DATA_LIST_SOURCE: ../dataset/synthia_list/{}.txt
+DATA_DIRECTORY_SOURCE: ../../data/SYNTHIA
+NUM_CLASSES: 16
+
+TARGET: Cityscapes
+NUM_WORKERS: 4
+TRAIN:
+  DA_METHOD: SSAUX_cross_style
+  MODEL: DeepLabv2
+  RESTORE_FROM: ../../pretrained_models/DeepLab_resnet_pretrained_imagenet.pth
+  MULTI_LEVEL: True
+  LAMBDA_ADV_MAIN: 0.001
+  LAMBDA_ADV_AUX: 0.0002
+
+  LAMBDA_ADV_SCSS: 1.0
+  SAVE_PRED_EVERY: 200
+
+  INFO_TARGET: ../dataset/cityscapes_list/info16class.json
+#  INPUT_SIZE_SOURCE: (1280, 760)
+
+TEST:
+  MODE: best
+  SNAPSHOT_STEP: 200
+  Start_Iter: 200
+
+  INFO_TARGET: ../dataset/cityscapes_list/info16class.json
