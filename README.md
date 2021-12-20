@@ -131,7 +131,7 @@ $ cp cvrn_train_r/UPSNet/crop640_synthia_publish.py UPSNet/crop640_synthia_publi
 $ cd UPSNet
 $ python crop640_synthia_publish.py
 ```
-3. Download converted instance labels and put:
+3. Download converted instance labels and put the two instance label files of cityscapes ('instancesonly_gtFine_train.json' and 'instancesonly_gtFine_val.json') under 'CVRN/UPSNet/data/cityscapes/annotations_7cls' and the SYNTHIA instance label file ('instancesonly_train.json') under 'CVRN/UPSNet/data/synthia_crop640/annotations_7cls_filtered'.
 
 
 
