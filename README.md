@@ -281,7 +281,23 @@ $ CUDA_VISIBLE_DEVICES=7 python2 crst_seg_aux_ss_trg_cross_style_pseudo_label_re
 
 
 ### Training Schedule for Panoptic segmentation:
+```bash
+Run Instance segmentation Step 1
+Run Instance segmentation Step 2
 
+Run Semantic segmentation Step 1
+Run Semantic segmentation Step 2
+Run Semantic segmentation Step 3 (a)
+
+Run Instance segmentation Step 3
+Run Instance segmentation Step 4
+Run Instance segmentation Step 5
+
+Run Semantic segmentation Step 3 (b)
+Run Semantic segmentation Step 3 (c)
+
+Run Panoptic segmentation evaluation
+```
 
 
 
