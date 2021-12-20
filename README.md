@@ -195,7 +195,7 @@ $ CUDA_VISIBLE_DEVICES=7 python test.py --cfg configs/synthia_self_supervised_au
 $ cd ADVENT/CRST/
 $ CUDA_VISIBLE_DEVICES=7 python2 crst_seg_aux_ss_trg_cross_style_pseudo_label_generation.py --random-mirror --random-scale --test-flipping \
 --num-classes 16 --data-src synthia --data-tgt-train-list ./dataset/list/cityscapes/train.lst \
---save results/synthia_ssaux_cross_style_mrkld_ss_trg_sil01_ep6 --data-tgt-dir dataset/Cityscapes --mr-weight-kld 0.1 \
+--save results/synthia_cross_style_ep6 --data-tgt-dir dataset/Cityscapes --mr-weight-kld 0.1 \
 --eval-scale 0.5 --test-scale '0.5' --restore-from {best_model_dir} \
 --num-rounds 1 --test-scale '0.5,0.8,1.0' --weight-sil 0.1 --epr 6
 $ cd ADVENT/CRST/
@@ -207,7 +207,7 @@ $ python upsnet/cvrn_st_psudolabeling_fuse_for_semantic_seg.py --iter 23000  --c
 $ cd ADVENT/CRST/
 $ CUDA_VISIBLE_DEVICES=7 python2 crst_seg_aux_ss_trg_cross_style_pseudo_label_retrain.py --random-mirror --random-scale --test-flipping \
 --num-classes 16 --data-src synthia --data-tgt-train-list ./dataset/list/cityscapes/train.lst \
---save results/synthia_ssaux_cross_style_mrkld_ss_trg_sil01_ep6 --data-tgt-dir dataset/Cityscapes --mr-weight-kld 0.1 \
+--save results/synthia_cross_style_ep6 --data-tgt-dir dataset/Cityscapes --mr-weight-kld 0.1 \
 --eval-scale 0.5 --test-scale '0.5' --restore-from {best_model_dir} \
 --num-rounds 1 --test-scale '0.5,0.8,1.0' --weight-sil 0.1 --epr 6
 ```
