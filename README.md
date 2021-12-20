@@ -136,8 +136,76 @@ $ cp cvrn/dataset/* UPSNet/upsnet/dataset
 $ cp cvrn/upsnet/* UPSNet/upsnet
 ```
 
-### Train
+### Train Processes (Instance segmentation branch):
 1. Step 1: Instance segmentation: cross-style regularization pre-training:
+```bash
+$ CUDA_VISIBLE_DEVICES=7 python upsnet/train_seed1234_co_training_cross_style.py --cfg upsnet/panoptic_uda_experiments/da_maskrcnn_lr25e-5_sida_rcnn0005_mask0001_size800_cross_style.yaml
+```
+2. Step 2. Instance segmentation: evaluate cross-style pre-trained models:
+(a). Evaluate cross-style pre-trained models on validation set over bbox:
+```bash
+$ CUDA_VISIBLE_DEVICES=1 python upsnet/test_resnet101_dense_detection.py --iter 1000  --cfg upsnet/panoptic_uda_experiments/da_maskrcnn_lr25e-5_sida_rcnn0005_mask0001_size800_cross_style.yaml
+```
+
+(b). Evaluate cross-style pre-trained models on validation set over instance mask:
+```bash
+$ CUDA_VISIBLE_DEVICES=2 python upsnet/test_resnet101_maskrcnn.py --iter 23000  --cfg upsnet/panoptic_uda_experiments/da_maskrcnn_lr25e-5_sida_rcnn0005_mask0001_size800_cross_style.yaml
+```
+
+(c). Evaluate cross-style pre-trained models on training set over instance mask:
+```bash
+$ CUDA_VISIBLE_DEVICES=7 python upsnet/cvrn_test_resnet101_maskrcnn_PL.py --iter 23000  --cfg upsnet/panoptic_uda_experiments/da_maskrcnn_lr25e-5_sida_rcnn0005_mask0001_size800_cross_style.yaml
+```
+
+3. Step 3. Instance segmentation: instance pseudo label generation and fusion with pre-trained model:
+
+```bash
+$ python upsnet/cvrn_st_psudolabeling_fuse.py --iter 23000  --cfg upsnet/panoptic_uda_experiments/da_maskrcnn_lr25e-5_sida_rcnn0005_mask0001_size800_cross_style.yaml
+```
+
+4. Step 4. Instance segmentation: retrain model over generated and fused instance pseudo labels:
+```bash
+CUDA_VISIBLE_DEVICES=4 python upsnet/train_seed1234_co_training_cross_style_stage2_ST_w_PL.py --cfg upsnet/panoptic_uda_experiments/da_maskrcnn_lr25e-5_sida_rcnn0005_mask0001_size800_cross_style_ST.yaml
+```
+
+5. Step 5. Panoptic segmentation evaluation: Please refer to previous sections.
+
+### Train Processes (Semantic segmentation branch):
+1. Step 1: Semantic segmentation: cross-style regularization pre-training:
+```bash
+$ CUDA_VISIBLE_DEVICES=7 python train_synthia.py --cfg configs/synthia_self_supervised_aux_cross_style_no_additional_source_flow.yml
+```
+
+2. Step 2: Semantic segmentation: evaluate cross-style pre-trained models:
+```bash
+$ CUDA_VISIBLE_DEVICES=7 python test.py --cfg configs/synthia_self_supervised_aux_cross_style_no_additional_source_flow.yml
+```
+
+3. Step 3: Semantic segmentation: Pseudo label generation, fusion and retraining:
+(a). Semantic segmentation: Pseudo label generation and fusion for 2975 images with best model (replace {best_model_dir} with the pretrained best model)
+```bash
+$ cd ADVENT/CRST/
+$ CUDA_VISIBLE_DEVICES=7 python2 crst_seg_aux_ss_trg_cross_style_pseudo_label_generation.py --random-mirror --random-scale --test-flipping \
+--num-classes 16 --data-src synthia --data-tgt-train-list ./dataset/list/cityscapes/train.lst \
+--save results/synthia_ssaux_cross_style_mrkld_ss_trg_sil01_ep6 --data-tgt-dir dataset/Cityscapes --mr-weight-kld 0.1 \
+--eval-scale 0.5 --test-scale '0.5' --restore-from {best_model_dir} \
+--num-rounds 1 --test-scale '0.5,0.8,1.0' --weight-sil 0.1 --epr 6
+$ cd ADVENT/CRST/
+$ python upsnet/cvrn_st_psudolabeling_fuse_for_semantic_seg.py --iter 23000  --cfg upsnet/panoptic_uda_experiments/da_maskrcnn_lr25e-5_sida_rcnn0005_mask0001_size800_cross_style.yaml
+```
+
+(b). Semantic segmentation: Pseudo label retraining for 2975 images (replace {best_model_dir} with the pretrained best model):
+```bash
+$ cd ADVENT/CRST/
+$ CUDA_VISIBLE_DEVICES=7 python2 crst_seg_aux_ss_trg_cross_style_pseudo_label_retrain.py --random-mirror --random-scale --test-flipping \
+--num-classes 16 --data-src synthia --data-tgt-train-list ./dataset/list/cityscapes/train.lst \
+--save results/synthia_ssaux_cross_style_mrkld_ss_trg_sil01_ep6 --data-tgt-dir dataset/Cityscapes --mr-weight-kld 0.1 \
+--eval-scale 0.5 --test-scale '0.5' --restore-from {best_model_dir} \
+--num-rounds 1 --test-scale '0.5,0.8,1.0' --weight-sil 0.1 --epr 6
+```
+
+
+### Training Schedule for Panoptic segmentation:
 
 
 
