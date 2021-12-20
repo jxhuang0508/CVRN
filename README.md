@@ -77,6 +77,7 @@ $ cp cvrn/models/* UPSNet/upsnet/models
 $ cp cvrn/dataset/* UPSNet/upsnet/dataset
 $ cp cvrn/upsnet/* UPSNet/upsnet
 ```
+
 ### Pre-trained models
 Pre-trained models can be downloaded [here](https://github.com/jxhuang0508/CVRN/releases/tag/Latest) and put in ```CVRN/pretrained_models```
 
@@ -109,6 +110,35 @@ $ 2021-06-10 23:20:32,261 | base_dataset.py | line 367: Stuff     |  38.4   65.3
 ```
 
 # Train
+### Prepare Dataset (Download SYNTHIA dataset at UPSNet/data/synthia)
+1. - Download [The SYNTHIA Dataset]( http://synthia-dataset.net/download/808/)  SYNTHIA-RAND-CITYSCAPES (CVPR16)
+The data folder is structured as follow:
+```
+ │   ├── synthia/ 
+ |   |   ├── images/
+ |   |   ├── labels/
+ |   |   ├── ...
+ |   |   ├── ...
+```
+2. Dataset preprocessing
+```bash
+$ cd UPSNet
+$ sh init_cityscapes.sh
+$ cd ..
+$ python cvrn/init_citiscapes_19cls_to_16cls.py
+```
+
+
+### Prepare CVRN Train
+```bash
+$ cp cvrn/models/* UPSNet/upsnet/models
+$ cp cvrn/dataset/* UPSNet/upsnet/dataset
+$ cp cvrn/upsnet/* UPSNet/upsnet
+```
+
+### Train
+1. Step 1: Instance segmentation: cross-style regularization pre-training:
+
 
 
 
