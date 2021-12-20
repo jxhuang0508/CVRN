@@ -168,7 +168,15 @@ $ python upsnet/cvrn_st_psudolabeling_fuse.py --iter 23000  --cfg upsnet/da_mask
 CUDA_VISIBLE_DEVICES=4 python upsnet/train_seed1234_co_training_cross_style_stage2_ST_w_PL.py --cfg upsnet/panoptic_uda_experiments/da_maskrcnn_cross_style_ST.yaml
 ```
 
-5. Step 5. Panoptic segmentation evaluation: Please refer to previous sections.
+5. Step 5. Instance segmentation: evaluate retrained models:
+```bash
+$ CUDA_VISIBLE_DEVICES=1 python upsnet/test_resnet101_dense_detection.py --iter 1000  --cfg upsnet/da_maskrcnn_cross_style_ST.yaml
+```
+```bash
+$ CUDA_VISIBLE_DEVICES=2 python upsnet/test_resnet101_maskrcnn.py --iter 6000  --cfg upsnet/da_maskrcnn_cross_style_ST.yaml
+```
+
+6. Step 6. Panoptic segmentation evaluation: Please refer to previous sections.
 
 ### Train Processes (Semantic segmentation branch):
 1. Step 1: Semantic segmentation: cross-style regularization pre-training:
