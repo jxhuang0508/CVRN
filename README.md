@@ -300,7 +300,7 @@ Run Panoptic segmentation evaluation
 
 
 ## Acknowledgements
-This codebase is heavily borrowed from [UPSNet](https://github.com/uber-research/UPSNet) and [CRST](https://github.com/yzou2/CRST).
+This codebase is heavily borrowed from [UPSNet](https://github.com/uber-research/UPSNet), [CRST](https://github.com/yzou2/CRST) and [ADVENT](https://github.com/valeoai/ADVENT).
 
 ## Contact
 If you have any questions, please contact: jiaxing.huang@ntu.edu.sg
