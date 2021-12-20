@@ -181,12 +181,12 @@ $ CUDA_VISIBLE_DEVICES=2 python upsnet/test_resnet101_maskrcnn.py --iter 6000  -
 ### Train Processes (Semantic segmentation branch):
 1. Step 1: Semantic segmentation: cross-style regularization pre-training:
 ```bash
-$ CUDA_VISIBLE_DEVICES=7 python train_synthia.py --cfg configs/synthia_self_supervised_aux_cross_style_no_additional_source_flow.yml
+$ CUDA_VISIBLE_DEVICES=7 python train_synthia.py --cfg configs/synthia_self_supervised_aux_cross_style.yml
 ```
 
 2. Step 2: Semantic segmentation: evaluate cross-style pre-trained models:
 ```bash
-$ CUDA_VISIBLE_DEVICES=7 python test.py --cfg configs/synthia_self_supervised_aux_cross_style_no_additional_source_flow.yml
+$ CUDA_VISIBLE_DEVICES=7 python test.py --cfg configs/synthia_self_supervised_aux_cross_style.yml
 ```
 
 3. Step 3: Semantic segmentation: Pseudo label generation, fusion and retraining:
