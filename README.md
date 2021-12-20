@@ -131,6 +131,8 @@ $ cp cvrn_train_r/UPSNet/crop640_synthia_publish.py UPSNet/crop640_synthia_publi
 $ cd UPSNet
 $ python crop640_synthia_publish.py
 ```
+3. Download converted instance labels and put:
+
 
 
 ### Prepare CVRN Train
@@ -143,7 +145,7 @@ $ conda env create -f seg_st.yml
 $ conda env create -f instance_seg.yml
 ```
 
-2. move files into UPSNet, respectively
+2. move files into UPSNet, respectively (if the shell file does not work well, please move all files from 'cvrn_train_r/UPSNet' into the cloned 'UPSNet' mannually):
 ```bash
 $ cd CVRN
 $ cp -r cvrn_train_r/UPSNet/data/cityscapes/annotations_7cls UPSNet/data/cityscapes/
@@ -162,7 +164,7 @@ $ cd ADVENT
 $ git clone https://github.com/yzou2/CRST.git
 ```
 
-5. move files into ADVENT and CRST, respectively:
+5. move files into ADVENT and CRST, respectively (if the shell file does not work well, please move all files from 'cvrn_train_r/ADVENT' into the cloned 'ADVENT' mannually, and similar for 'cvrn_train_r/CRST' and the cloned 'CRST'):
 ```bash
 $ cd CVRN
 $ cp cvrn_train_r/ADVENT/advent/dataset/* ADVENT/advent/dataset
