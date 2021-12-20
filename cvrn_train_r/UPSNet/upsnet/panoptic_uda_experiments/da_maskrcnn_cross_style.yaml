@@ -1,0 +1,90 @@
+---
+output_path: "./outputs/"
+model_prefix: "resnet_101_"
+symbol: resnet_101_upsnet_multiscale_branch_lr10
+gpus: '0'
+source_dataset:
+  num_classes: 7
+  num_seg_classes: 16
+  dataset: Synthia_7cls
+  dataset_path: "./data/synthia_crop640/"
+#  dataset_path: "./data/synthia_crop640_100/" # 100 images for debug usage
+  image_set: train
+  root_path: "./data/"
+
+dataset:
+  num_classes: 7
+  num_seg_classes: 16
+  dataset: Cityscapes_7cls
+  dataset_path: "./data/cityscapes/"
+  image_set: train
+  root_path: "./data/"
+  test_image_set: val
+
+network:
+  has_rpn: true
+  has_rcnn: true
+  has_mask_head: true
+  has_fcn_head: false
+  fcn_head: "FCNHead"
+  fcn_num_layers: 2
+  has_panoptic_head: false
+  pretrained: "./model/pretrained_model/resnet-101-caffe.pth"
+
+
+train:
+  warmup_iteration: 0
+  lr: 0.00025
+  wd: 0.0005
+  rcnn_sida_weight: 0.005 # style invariant DA
+  mask_sida_weight: 0.001 # style invariant DA
+  fcn_sida_weight: 0
+  fcn_roi_consistency_weight: 0
+#  resume: false
+#  begin_iteration: 0
+  resume: True
+  begin_iteration: 17000
+  use_horovod: false
+  scales:
+  - 640
+  - 672
+  - 704
+  - 736
+  - 768
+  - 800
+  - 832
+  - 864
+  - 896
+  - 928
+  - 960
+  - 992
+  - 1024
+  max_size: 2048
+  # solver
+  display_iter: 20
+  snapshot_step: 1000
+  max_iteration: 90000
+  decay_iteration:
+  - 90000
+  momentum: 0.9
+  batch_size: 1
+
+  fcn_loss_weight: 1
+  fcn_with_roi_loss: false
+  panoptic_loss_weight: 0.5
+  panoptic_box_keep_fraction: 0.7
+
+  eval_data: false
+
+test:
+  rpn_post_nms_top_n: 1000
+  rpn_nms_thresh: 0.7
+  nms_thresh: 0.5
+  score_thresh: 0.05
+  scales:
+    - 800
+  max_size: 1600
+  batch_size: 1
+  test_iteration: 90000
+  panoptic_stuff_area_limit: 2048
+  vis_mask: false
