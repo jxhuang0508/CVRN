@@ -49,8 +49,10 @@ $ conda env create -f environment.yaml
 
 2. Clone UPSNet:
 ```bash
+cd CVRN
 $ git clone https://github.com/uber-research/UPSNet.git
 ```
+
 3. Initialization:
 ```bash
 $ cd UPSNet
@@ -60,6 +62,7 @@ $ cp -r lib/dataset_devkit/panopticapi/panopticapi/ .
 
 ### Import Deeplab-v2
 ```bash
+$ cd CVRN
 $ git clone https://github.com/yzou2/CRST.git
 ```
 
@@ -114,6 +117,7 @@ $ 2021-06-10 23:20:32,261 | base_dataset.py | line 367: Stuff     |  38.4   65.3
 1. - Download [The SYNTHIA Dataset]( http://synthia-dataset.net/download/808/)  SYNTHIA-RAND-CITYSCAPES (CVPR16)
 The data folder is structured as follow:
 ```
+CVRN/UPSNet/data:
  │   ├── synthia/ 
  |   |   ├── images/
  |   |   ├── labels/
@@ -122,57 +126,107 @@ The data folder is structured as follow:
 ```
 2. Dataset preprocessing
 ```bash
+$ cd CVRN
+$ cp cvrn_train_r/UPSNet/crop640_synthia_publish.py UPSNet/crop640_synthia_publish.py
 $ cd UPSNet
-$ sh init_cityscapes.sh
-$ cd ..
-$ python cvrn/init_citiscapes_19cls_to_16cls.py
+$ python crop640_synthia_publish.py
 ```
 
 
 ### Prepare CVRN Train
+
+1. creat environment:
 ```bash
-$ cp cvrn/models/* UPSNet/upsnet/models
-$ cp cvrn/dataset/* UPSNet/upsnet/dataset
-$ cp cvrn/upsnet/* UPSNet/upsnet
+$ cd CVRN/cvrn_train_r/cvrn_env
+$ conda env create -f seg_cross_style_reg.yml
+$ conda env create -f seg_st.yml
+$ conda env create -f instance_seg.yml
+```
+
+2. move files into UPSNet, respectively
+```bash
+$ cd CVRN
+$ cp -r cvrn_train_r/UPSNet/data/cityscapes/annotations_7cls UPSNet/data/cityscapes/
+$ cp -r cvrn_train_r/UPSNet/data/synthia_crop640 UPSNet/data/
+$ cp cvrn_train_r/UPSNet/upsnet/dataset/* UPSNet/upsnet/dataset
+$ cp cvrn_train_r/UPSNet/upsnet/models/* UPSNet/upsnet/models
+$ cp cvrn_train_r/UPSNet/upsnet/panoptic_uda_experiments/* UPSNet/upsnet/panoptic_uda_experiments
+$ cp cvrn_train_r/UPSNet/upsnet/* UPSNet/upsnet
+```
+
+3. clone ADVENT and CRST:
+```bash
+$ cd CVRN
+$ git clone https://github.com/valeoai/ADVENT.git
+$ cd ADVENT
+$ git clone https://github.com/yzou2/CRST.git
+```
+
+5. move files into ADVENT and CRST, respectively:
+```bash
+$ cd CVRN
+$ cp cvrn_train_r/ADVENT/advent/dataset/* ADVENT/advent/dataset
+$ cp cvrn_train_r/ADVENT/advent/domain_adaptation/* ADVENT/advent/domain_adaptation
+$ cp cvrn_train_r/ADVENT/advent/scripts/configs/* ADVENT/advent/scripts/configs
+$ cp cvrn_train_r/ADVENT/advent/scripts/* ADVENT/advent/scripts
+
+$ cp cvrn_train_r/ADVENT/CRST/deeplab/* ADVENT/CRST/deeplab
+$ cp cvrn_train_r/ADVENT/CRST/* ADVENT/CRST
 ```
 
 ### Train Processes (Instance segmentation branch):
 1. Step 1: Instance segmentation: cross-style regularization pre-training:
 ```bash
+$ cd CVRN/UPSNet
+$ conda activate instance_seg
 $ CUDA_VISIBLE_DEVICES=7 python upsnet/train_seed1234_co_training_cross_style.py --cfg upsnet/da_maskrcnn_cross_style.yaml
 ```
 2. Step 2. Instance segmentation: evaluate cross-style pre-trained models:
 (a). Evaluate cross-style pre-trained models on validation set over bbox:
 ```bash
+$ cd CVRN/UPSNet
+$ conda activate instance_seg
 $ CUDA_VISIBLE_DEVICES=1 python upsnet/test_resnet101_dense_detection.py --iter 1000  --cfg upsnet/da_maskrcnn_cross_style.yaml
 ```
 
 (b). Evaluate cross-style pre-trained models on validation set over instance mask:
 ```bash
+$ cd CVRN/UPSNet
+$ conda activate instance_seg
 $ CUDA_VISIBLE_DEVICES=2 python upsnet/test_resnet101_maskrcnn.py --iter 23000  --cfg upsnet/da_maskrcnn_cross_style.yaml
 ```
 
 (c). Evaluate cross-style pre-trained models on training set over instance mask:
 ```bash
+$ cd CVRN/UPSNet
+$ conda activate instance_seg
 $ CUDA_VISIBLE_DEVICES=7 python upsnet/cvrn_test_resnet101_maskrcnn_PL.py --iter 23000  --cfg upsnet/da_maskrcnn_cross_style.yaml
 ```
 
 3. Step 3. Instance segmentation: instance pseudo label generation and fusion with pre-trained model:
 
 ```bash
+$ cd CVRN/UPSNet
+$ conda activate instance_seg
 $ python upsnet/cvrn_st_psudolabeling_fuse.py --iter 23000  --cfg upsnet/da_maskrcnn_cross_style.yaml
 ```
 
 4. Step 4. Instance segmentation: retrain model over generated and fused instance pseudo labels:
 ```bash
+$ cd CVRN/UPSNet
+$ conda activate instance_seg
 CUDA_VISIBLE_DEVICES=4 python upsnet/train_seed1234_co_training_cross_style_stage2_ST_w_PL.py --cfg upsnet/panoptic_uda_experiments/da_maskrcnn_cross_style_ST.yaml
 ```
 
 5. Step 5. Instance segmentation: evaluate retrained models:
 ```bash
+$ cd CVRN/UPSNet
+$ conda activate instance_seg
 $ CUDA_VISIBLE_DEVICES=1 python upsnet/test_resnet101_dense_detection.py --iter 1000  --cfg upsnet/da_maskrcnn_cross_style_ST.yaml
 ```
 ```bash
+$ cd CVRN/UPSNet
+$ conda activate instance_seg
 $ CUDA_VISIBLE_DEVICES=2 python upsnet/test_resnet101_maskrcnn.py --iter 6000  --cfg upsnet/da_maskrcnn_cross_style_ST.yaml
 ```
 
@@ -181,18 +235,23 @@ $ CUDA_VISIBLE_DEVICES=2 python upsnet/test_resnet101_maskrcnn.py --iter 6000  -
 ### Train Processes (Semantic segmentation branch):
 1. Step 1: Semantic segmentation: cross-style regularization pre-training:
 ```bash
+$ cd CVRN/ADVENT/advent/scripts
+$ conda activate seg_cross_style_reg
 $ CUDA_VISIBLE_DEVICES=7 python train_synthia.py --cfg configs/synthia_self_supervised_aux_cross_style.yml
 ```
 
 2. Step 2: Semantic segmentation: evaluate cross-style pre-trained models:
 ```bash
+$ cd CVRN/ADVENT/advent/scripts
+$ conda activate seg_cross_style_reg
 $ CUDA_VISIBLE_DEVICES=7 python test.py --cfg configs/synthia_self_supervised_aux_cross_style.yml
 ```
 
 3. Step 3: Semantic segmentation: Pseudo label generation, fusion and retraining:
 (a). Semantic segmentation: Pseudo label generation and fusion for 2975 images with best model (replace {best_model_dir} with the pretrained best model)
 ```bash
-$ cd ADVENT/CRST/
+$ cd CVRN/ADVENT/CRST/
+$ conda activate seg_st
 $ CUDA_VISIBLE_DEVICES=7 python2 crst_seg_aux_ss_trg_cross_style_pseudo_label_generation.py --random-mirror --random-scale --test-flipping \
 --num-classes 16 --data-src synthia --data-tgt-train-list ./dataset/list/cityscapes/train.lst \
 --save results/synthia_cross_style_ep6 --data-tgt-dir dataset/Cityscapes --mr-weight-kld 0.1 \
@@ -204,7 +263,8 @@ $ python upsnet/cvrn_st_psudolabeling_fuse_for_semantic_seg.py --iter 23000  --c
 
 (b). Semantic segmentation: Pseudo label retraining for 2975 images (replace {best_model_dir} with the pretrained best model):
 ```bash
-$ cd ADVENT/CRST/
+$ cd CVRN/ADVENT/CRST/
+$ conda activate seg_st
 $ CUDA_VISIBLE_DEVICES=7 python2 crst_seg_aux_ss_trg_cross_style_pseudo_label_retrain.py --random-mirror --random-scale --test-flipping \
 --num-classes 16 --data-src synthia --data-tgt-train-list ./dataset/list/cityscapes/train.lst \
 --save results/synthia_cross_style_ep6 --data-tgt-dir dataset/Cityscapes --mr-weight-kld 0.1 \
