@@ -250,7 +250,7 @@ $ CUDA_VISIBLE_DEVICES=7 python test.py --cfg configs/synthia_self_supervised_au
 ```
 
 3. Step 3: Semantic segmentation: Pseudo label generation, fusion and retraining:
-(a). Semantic segmentation: Pseudo label generation and fusion for 2975 images with best model (replace {best_model_dir} with the pretrained best model)
+(a). Semantic segmentation: Pseudo label generation for 2975 images with best model (replace {best_model_dir} with the pretrained best model)
 ```bash
 $ cd CVRN/ADVENT/CRST/
 $ conda activate seg_st
@@ -259,11 +259,16 @@ $ CUDA_VISIBLE_DEVICES=7 python2 crst_seg_aux_ss_trg_cross_style_pseudo_label_ge
 --save results/synthia_cross_style_ep6 --data-tgt-dir dataset/Cityscapes --mr-weight-kld 0.1 \
 --eval-scale 0.5 --test-scale '0.5' --restore-from {best_model_dir} \
 --num-rounds 1 --test-scale '0.5,0.8,1.0' --weight-sil 0.1 --epr 6
-$ cd ADVENT/CRST/
+```
+
+(b). Semantic segmentation: Pseudo label fusion for 2975 images
+```bash
+$ cd CVRN/UPSNet
+$ conda activate instance_seg
 $ python upsnet/cvrn_st_psudolabeling_fuse_for_semantic_seg.py --iter 23000  --cfg upsnet/da_maskrcnn_cross_style.yaml
 ```
 
-(b). Semantic segmentation: Pseudo label retraining for 2975 images (replace {best_model_dir} with the pretrained best model):
+(c). Semantic segmentation: Pseudo label retraining for 2975 images (replace {best_model_dir} with the pretrained best model):
 ```bash
 $ cd CVRN/ADVENT/CRST/
 $ conda activate seg_st
